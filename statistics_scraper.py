@@ -5,6 +5,19 @@ import os
 import base64
 import json
 from requests import post, get
+from pymongo.mongo_client import MongoClient
+
+uri = "mongodb+srv://kushpatel:haTZRTXVWw53OtU3@fantasymusic.ammhffo.mongodb.net/?retryWrites=true&w=majority"
+# Create a new client and connect to the server
+client = MongoClient(uri)
+# Send a ping to confirm a successful connection
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+
+# mongodb+srv://kushpatel:haTZRTXVWw53OtU3@fantasymusic.ammhffo.mongodb.net/
 
 load_dotenv()
 
@@ -206,19 +219,18 @@ for artist in billboard_hot_100_song_artist:
 for artist in billboard_hot_100_artists:
     search_for_artist(token, artist, billboard_hot_100_artists_picture) 
 
-
 ####################################################################################################################
 
-#for i in range (0, num_artists):
-    #print(f"{i+1}. {artists[i]} - {total_streams[i]} - {daily_streams[i]} - {artists_pictures[i]}")
-
-#for i in range (0, len(billboard_hot_100_song)):
-    #print(f"{i+1}. {billboard_hot_100_song[i]} - {billboard_hot_100_song_artist[i]} - {billboard_hot_100_song_artist_picture[i]}")
+for i in range (0, num_artists):
+    print(f"{i+1}. {artists[i]} - {total_streams[i]} - {daily_streams[i]} - {artists_pictures[i]}")
     
-#for i in range (0, len(billboard_hot_100_artists)):
-    #print(f"{i+1}. {billboard_hot_100_artists[i]} - {billboard_hot_100_artists_picture[i]}")
+for i in range (0, len(billboard_hot_100_song)):
+    print(f"{i+1}. {billboard_hot_100_song[i]} - {billboard_hot_100_song_artist[i]} - {billboard_hot_100_song_artist_picture[i]}")
+    
+for i in range (0, len(billboard_hot_100_artists)):
+    print(f"{i+1}. {billboard_hot_100_artists[i]} - {billboard_hot_100_artists_picture[i]}")
 
-#for i in range (0, len(billboard_hot_200_album)):
-    #print(f"{i+1}. {billboard_hot_200_album[i]} - {billboard_hot_200_album_artist[i]} - {billboard_hot_200_album_cover[i]}")
+for i in range (0, len(billboard_hot_200_album)):
+    print(f"{i+1}. {billboard_hot_200_album[i]} - {billboard_hot_200_album_artist[i]} - {billboard_hot_200_album_cover[i]}")
     
 
