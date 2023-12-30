@@ -7,6 +7,10 @@ import json
 from requests import post, get
 from pymongo.mongo_client import MongoClient
 
+####################################################################################################################
+
+# Connecting to the MongoDB database
+
 uri = "mongodb+srv://kushpatel:haTZRTXVWw53OtU3@fantasymusic.ammhffo.mongodb.net/?retryWrites=true&w=majority"
 # Create a new client and connect to the server
 client = MongoClient(uri)
@@ -17,9 +21,9 @@ try:
 except Exception as e:
     print(e)
 
-# mongodb+srv://kushpatel:haTZRTXVWw53OtU3@fantasymusic.ammhffo.mongodb.net/
-
 load_dotenv()
+
+####################################################################################################################
 
 # the following code is to access the spotify API. We need to get a token to access the API.
 client_id = os.getenv("CLIENT_ID")
@@ -233,4 +237,3 @@ for i in range (0, len(billboard_hot_100_artists)):
 for i in range (0, len(billboard_hot_200_album)):
     print(f"{i+1}. {billboard_hot_200_album[i]} - {billboard_hot_200_album_artist[i]} - {billboard_hot_200_album_cover[i]}")
     
-
