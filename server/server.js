@@ -1,15 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb'); // extra
+const { MongoClient, ServerApiVersion } = require('mongodb'); 
+const dotenv = require('dotenv'); 
+const path = require('path');
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') }); // load environment variables from .env file
 
 const app = express(); // create express app
-
 app.use(express.json()); 
 app.use(cors());
 
 // connect to mongodb
-const uri = "mongodb+srv://kushpatel:haTZRTXVWw53OtU3@fantasymusic.ammhffo.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URL; 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
