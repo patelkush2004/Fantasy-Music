@@ -1,0 +1,4 @@
+1. Have a page for all the tables
+2. Have a "draft" button on the overall page
+3. If "drafted" add the artist on MyTeam
+4. Have a Prediction Page which predicts

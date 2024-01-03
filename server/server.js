@@ -64,6 +64,14 @@ app.get('/billboard-hot-200-songs', async (req, res) => {
     res.json(billboardSongsData);
 });
 
+app.get('/my-team', async (req, res) => {
+    res.send('My Team Page');
+});
+
+app.get('/predictions', async (req, res) => {
+    res.send('Predictions Page');
+});
+
 app.listen(3001, () => {
     console.log('Server listening on port 3001');
 });
