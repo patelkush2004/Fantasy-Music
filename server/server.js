@@ -68,6 +68,9 @@ app.get('/my-team', async (req, res) => {
     res.send('My Team Page');
 });
 
+// add something for selected...
+// 22 minutes in video: https://www.youtube.com/watch?v=R81g-2r6ynM
+
 app.get('/predictions', async (req, res) => {
     res.send('Predictions Page');
 });

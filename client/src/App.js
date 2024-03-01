@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
-
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* A logo */}
+      <img src="https://i.imgur.com/3K9q5YV.png" alt="Fantasy Music Logo" />
+      
+
+      <h1>Fantasy Music</h1> 
+      {/* A loading animaion with a progression bar */}
+
+      {/* After 5 seconds, it automatically opens up the my team page */}
+
+      {/* The my team page has a tab to open up overall page */}
+
     </div>
   );
 }
