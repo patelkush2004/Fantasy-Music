@@ -1,10 +1,11 @@
 .App {
   text-align: center;
+  background-color: #e7fce4;
 }
 
 .App-logo {
   height: 20vmin;
-  transform: translate(0px, -50px);
+  transform: translate(0, -50px);
 }
 
 .App-title {
@@ -16,16 +17,19 @@
   letter-spacing: 0.5px;
   transform: translate(0px, -75px);
   font-weight: bold;
-  
 }
 
 .App-header {
-  background-color: #e1ffe0;
+  background-color: #e7fce4;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+}
+
+.Button-Pages {
+  display: flex;
+  justify-content: space-between;
 }
