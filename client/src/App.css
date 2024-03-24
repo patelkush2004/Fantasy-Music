@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: #e7fce4;
+  background-color: rgb(246, 255, 235);
 }
 
 .App-logo {
@@ -20,17 +20,16 @@
 }
 
 .App-header {
-  background-color: #e7fce4;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
 }
 
 .Button-Pages {
   display: flex;
   justify-content: space-between;
   width: 57%;
+  transform: translate(0, -50px);
 }

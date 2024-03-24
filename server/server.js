@@ -48,19 +48,19 @@ app.get('/overall', async (req, res) => {
 
 // get billboard hot 100 artists data
 app.get('/billboard-hot-100-artists', async (req, res) => {
-    const billboardData = await billboardDB.find({}).toArray(); // find all data in the overall collection of the database
+    const billboardData = await billboardDB.find({}).toArray(); // find all data in the billboard 100 collection of the database
     res.json(billboardData);
 });
 
 // get billboard hot 200 albums data
 app.get('/billboard-hot-200-albums', async (req, res) => {
-    const billboardAlbumsData = await billboardAlbumsDB.find({}).toArray(); // find all data in the overall collection of the database
+    const billboardAlbumsData = await billboardAlbumsDB.find({}).toArray(); // find all data in the billboard albums collection of the database
     res.json(billboardAlbumsData);
 });
 
 // get billboard hot 200 songs data
 app.get('/billboard-hot-200-songs', async (req, res) => {
-    const billboardSongsData = await billboardSongsDB.find({}).toArray(); // find all data in the overall collection of the database
+    const billboardSongsData = await billboardSongsDB.find({}).toArray(); // find all data in the billboard songs collections collection of the database
     res.json(billboardSongsData);
 });
 
@@ -69,7 +69,8 @@ app.get('/my-team', async (req, res) => {
 });
 
 // add something for selected...
-// 22 minutes in video: https://www.youtube.com/watch?v=R81g-2r6ynM
+// might have to add a "my team": boolean field to the overall collection to see if the artist is selected or not
+// 21 minutes in video: https://www.youtube.com/watch?v=R81g-2r6ynM
 
 app.get('/predictions', async (req, res) => {
     res.send('Predictions Page');
