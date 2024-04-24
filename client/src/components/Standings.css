@@ -1,0 +1,21 @@
+body {
+    background-color: rgb(246, 255, 235);
+}
+
+.Standings {
+    background-color: rgb(246, 255, 235);
+  }
+  
+  
+.Standings-title {
+    font-size: 70px;
+    line-height: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    text-align: center;
+    letter-spacing: 0.5px;
+    transform: translate(0px, 0px);
+    font-weight: bold;
+}
+  
+  
