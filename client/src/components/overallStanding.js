@@ -1,5 +1,6 @@
 import React from "react";
 import './Standings.css';
+import { useState, useEffect } from 'react';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -16,58 +17,51 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
+const OVERALL = "http://localhost:3001/overall";
+
 const columns = [
-  { id: 'artist', label: 'Artist', minWidth: 170 },
-  { id: 'name', label: 'Name', minWidth: 100 },
+  { id: 'rank', label: 'Rank', minWidth: 50, align: 'left' },
+  { id: 'artist_picture', label: 'Artist', minWidth: 50, align: 'center'},
+  { id: 'artist', label: 'Name', minWidth: 320 },
   {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
-    align: 'right',
+    id: 'daily_streams',
+    label: 'Daily Streams',
+    minWidth: 150,
+    align: 'left',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
+    id: 'total_streams',
+    label: 'Total Streams',
+    minWidth: 150,
+    align: 'left',
     format: (value) => value.toLocaleString('en-US'),
   },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
-];
+function addMillion(data, str) {
+    return data.map(item => {
+      item.daily_streams = item.daily_streams + str;
+      item.total_streams = item.total_streams + str;
+      return item;
+    });
+  }
 
 export default function OverallStanding() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState([]);
+
+  const getRows = async () => {
+    const response = await fetch(OVERALL);
+    const data = await response.json();
+    addMillion(data, ' million');
+    setRows(data);
+  }
+
+  useEffect(() => {
+    getRows();
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -78,7 +72,7 @@ export default function OverallStanding() {
     setPage(0);
   };
 
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = useState('1');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -86,11 +80,9 @@ export default function OverallStanding() {
 
   return (
     <div className="Standings">
-        <header className="Standings-header">
         <p className="Standings-title">
             overall standings
         </p>
-        </header>
         <Box sx={{ width: '90%', typography: 'body1', margin: 'auto' }}>
         <TabContext value={value}>
             <Box sx={{borderBottom: 1, borderColor: 'divider' }}>
@@ -101,7 +93,7 @@ export default function OverallStanding() {
             </Box>
             <TabPanel value="1">
                 <Paper sx={{ width: '100%', overflow: 'hidden', margin: 'auto' }}>
-                    <TableContainer sx={{ maxHeight: 550 }}>
+                    <TableContainer sx={{ maxHeight: 680 }}>
                         <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
@@ -110,6 +102,7 @@ export default function OverallStanding() {
                                 key={column.id}
                                 align={column.align}
                                 style={{ minWidth: column.minWidth }}
+                                sx={{ fontWeight: 'bold', backgroundColor: '#48A2EE', color: 'white'}}
                                 >
                                 {column.label}
                                 </TableCell>
@@ -121,16 +114,17 @@ export default function OverallStanding() {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                                 return (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code} sx={{ height: '20px' }}>
                                     {columns.map((column) => {
-                                    const value = row[column.id];
-                                    return (
-                                        <TableCell key={column.id} align={column.align}>
-                                        {column.format && typeof value === 'number'
-                                            ? column.format(value)
-                                            : value}
-                                        </TableCell>
-                                    );
+                                        const value = row[column.id];
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
+                                            {column.id === 'artist_picture' ? 
+                                                <img src={value} alt="artist_picture" style={{width: '66px', height: '66px', borderRadius: '50%'}}/> :
+                                                (column.format && typeof value === 'number' ? column.format(value) : value)
+                                            } 
+                                            </TableCell>
+                                        );
                                     })}
                                 </TableRow>
                                 );
@@ -146,6 +140,7 @@ export default function OverallStanding() {
                         page={page}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
+                        sx={{ fontWeight: 'bold', backgroundColor: '#48A2EE', color: 'white'}}
                     />
                 </Paper>
             </TabPanel>

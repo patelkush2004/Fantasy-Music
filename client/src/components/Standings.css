@@ -8,7 +8,7 @@ body {
   
   
 .Standings-title {
-    font-size: 70px;
+    font-size: 40px;
     line-height: 0;
     font-family: Arial, sans-serif;
     color: #333;
@@ -16,6 +16,7 @@ body {
     letter-spacing: 0.5px;
     transform: translate(0px, 0px);
     font-weight: bold;
+    margin-bottom: 1%;
 }
   
   
