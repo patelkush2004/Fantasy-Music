@@ -266,7 +266,8 @@ def add_to_database():
             'artist': artists[i],
             'total_streams': total_streams[i],
             'daily_streams': daily_streams[i],
-            'artist_picture': artists_pictures[i]
+            'artist_picture': artists_pictures[i],
+            'my_team': False
         })
 
     for i in range (0, len(billboard_hot_100_song)):

@@ -58,10 +58,17 @@ app.get('/billboard-hot-200-albums', async (req, res) => {
     res.json(billboardAlbumsData);
 });
 
-// get billboard hot 200 songs data
-app.get('/billboard-hot-200-songs', async (req, res) => {
+// get billboard hot 100 songs data
+app.get('/billboard-hot-100-songs', async (req, res) => {
     const billboardSongsData = await billboardSongsDB.find({}).toArray(); // find all data in the billboard songs collections collection of the database
     res.json(billboardSongsData);
+});
+
+app.put('/my_team/update', async (req, res) => {
+    const { artist, my_team } = req.body;
+    await overallDB.updateOne({ artist: artist }, { $set: { my_team } });
+    //await overallDB.updateMany({}, { $set: { my_team } });
+    res.sendStatus(200);
 });
 
 app.get('/my-team', async (req, res) => {

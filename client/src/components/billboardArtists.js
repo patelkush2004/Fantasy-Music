@@ -17,6 +17,8 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
+import green from './true.png';
+
 const OVERALL = "http://localhost:3001/billboard-hot-100-artists";
 
 const columns = [
@@ -25,7 +27,39 @@ const columns = [
   { id: 'artist', label: 'Name', minWidth: 620 },
 ];
 
-export default function BillboardArtists() {
+const myTeamColumns = [
+    { id: 'rank', label: 'Rank', minWidth: 50, align: 'left' },
+  { id: 'artist_picture', label: 'Artist', minWidth: 50, align: 'center'},
+  { id: 'artist', label: 'Name', minWidth: 320 },
+  {
+    id: 'daily_streams',
+    label: 'Daily Streams',
+    minWidth: 100,
+    align: 'left',
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'total_streams',
+    label: 'Total Streams',
+    minWidth: 100,
+    align: 'left',
+    format: (value) => value.toLocaleString('en-US'),
+  },
+  {
+    id: 'hot_100_rank',
+    label: 'Hot 100 Rank',
+    minWidth: 50,
+    align: 'center',
+  },
+  {
+    id: 'my_team',
+    label: 'My Team',
+    minWidth: 50,
+    align: 'center',
+  }
+];
+
+export default function BillboardArtists({myTeam, setMyTeam}) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
@@ -34,7 +68,24 @@ export default function BillboardArtists() {
     const response = await fetch(OVERALL);
     const data = await response.json();
     setRows(data);
+
+    const hot_rank = getArtistRank(myTeam, data);
+    const updatedTeam = myTeam.map((item) => ({
+      ...item,
+      hot_100_rank: hot_rank[item.artist],
+    }));
+
+    setMyTeam(updatedTeam);
   }
+
+  const getArtistRank = (myTeam, rows) => {
+    let hot_rank = {};
+    myTeam.forEach((item) => {
+      let foundRow = rows.find((row) => row.artist === item.artist);
+      hot_rank[item.artist] = foundRow ? foundRow.rank : 'N/A';
+    });
+    return hot_rank;
+  };
 
   useEffect(() => {
     getRows();
@@ -121,7 +172,61 @@ export default function BillboardArtists() {
                     />
                 </Paper>
             </TabPanel>
-            <TabPanel value="2">Item Two</TabPanel>
+            <TabPanel value="2">
+              <Paper sx={{ width: '100%', overflow: 'hidden', margin: 'auto' }}>
+                    <TableContainer sx={{ maxHeight: 680 }}>
+                        <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                            <TableRow>
+                            {myTeamColumns.map((column) => (
+                                <TableCell
+                                key={column.id}
+                                align={column.align}
+                                style={{ minWidth: column.minWidth }}
+                                sx={{ fontWeight: 'bold', backgroundColor: '#48A2EE', color: 'white'}}
+                                >
+                                {column.label}
+                                </TableCell>
+                            ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {myTeam
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row) => {
+                                return (
+                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code} sx={{ height: '20px' }}>
+                                    {myTeamColumns.map((column) => {
+                                        const value = row[column.id];
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
+                                            {column.id === 'artist_picture' ? 
+                                                <img src={value} alt="artist_picture" style={{width: '66px', height: '66px', borderRadius: '50%'}}/> :
+                                                column.id === 'my_team' && value == true ?
+                                                <img src={green} alt="my_team" style={{width: '20px', height: '20px'}}/> :
+                                                (column.format && typeof value === 'number' ? column.format(value) : value)
+                                            } 
+                                            </TableCell>
+                                        );
+                                    })}
+                                </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 100]}
+                        component="div"
+                        count={myTeam.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        sx={{ fontWeight: 'bold', backgroundColor: '#48A2EE', color: 'white'}}
+                    />
+                </Paper>
+            </TabPanel>
         </TabContext>
         </Box>
     </div>
